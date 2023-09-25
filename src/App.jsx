@@ -4,7 +4,8 @@ function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const ws = new WebSocket(process.env.REACT_APP_BACKEND_WEBSOCKET_ADDR);
+    let url = import.meta.env.VITE_BACKEND_WEBSOCKET_ADDR;
+    const ws = new WebSocket(url);
 
     ws.onmessage = function (event) {
       const json = JSON.parse(event.data);
@@ -18,10 +19,9 @@ function App() {
     };
 
     return () => {
-      // if (ws.readyState === ws.OPEN) {
-      // console.log('hit');
-      ws.close();
-      // }
+      if (ws.readyState === ws.OPEN) {
+        ws.close();
+      }
     };
   }, []);
 
